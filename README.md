@@ -8,10 +8,10 @@ Latest Posts / -- List of all Posts, Post short description, author and publish 
 View Post /posts/:postId -- Post page
 Features:
 
-View list of latest Posts
-View specific Post
-Create new comment under Post
-Create / Edit Post * Optional
+- View list of latest Posts
+- View specific Post
+- Create new comment under Post
+- Create / Edit Post * Optional
 
 ## Workflow
 
