@@ -1,9 +1,9 @@
-import axios from "axios";
+import axios from 'axios';
 
 const URL = `https://simple-blog-api.crew.red/posts`;
 
 export const setPosts = posts => ({
-  type: "SET_POSTS",
+  type: 'SET_POSTS',
   posts
 });
 
@@ -11,9 +11,11 @@ export const setAllPosts = () => {
   return async dispatch => {
     try {
       const response = await axios.get(URL);
-      dispatch(setPosts(response.data));
+      dispatch(setPosts(response.data.filter(post =>
+        post.comments && post.title.length > 0
+      )));
     } catch (e) {
-      throw new Error("Could not retrieve posts...");
+      throw new Error('Could not retrieve posts...');
     }
   };
 };
@@ -33,6 +35,7 @@ export const addPosts = post => {
       });
 
       dispatch(addPost(response.data.post));
+      alert('Post is added!')
     } catch (e) {
       throw new Error(e.response.data.error);
     }

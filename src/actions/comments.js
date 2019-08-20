@@ -1,10 +1,10 @@
-import axios from "axios";
+import axios from 'axios';
 
 const URL = `https://simple-blog-api.crew.red/comments`;
 
 export const setComments = comments => ({
-  type: "SET_COMMENTS",
-  comments
+  type: 'SET_COMMENTS',
+  comments,
 });
 
 export const setAllComments = () => {
@@ -13,13 +13,13 @@ export const setAllComments = () => {
       const response = await axios.get(URL);
       dispatch(setComments(response.data));
     } catch (e) {
-      throw new Error("Could not retrieve comments...");
+      throw new Error('Could not retrieve comments...');
     }
   };
 };
 
 export const addComment = (id, comment) => ({
-  type: "ADD_COMMENT",
+  type: 'ADD_COMMENT',
   id,
   comment
 });
@@ -29,14 +29,12 @@ export const addNewComment = (id, comment) => {
     try {
       const response = await axios({
         url: URL,
-        method: "post",
-        data: {body:comment, prevId:id}
+        method: 'post',
+        data: {body:comment, prevId:id},
       });
-      console.log(response.data);
-
-      dispatch(addComment(response.data));
+      dispatch(addComment(id, response.data));
     } catch (e) {
-      throw new Error("Could not add comment...");
+      throw new Error('Could not add comment...');
     }
   };
 };

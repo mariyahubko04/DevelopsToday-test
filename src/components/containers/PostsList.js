@@ -1,15 +1,16 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import moment from "moment";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 
-import { setAllPosts } from "../../actions/posts";
-import { sortPostsByDate } from "../../selectors/posts";
-import { PostBlock, Flex, H1, Border } from "../../styles";
+import { setAllPosts } from '../../actions/posts';
+import { sortPostsByDate } from '../../selectors/posts';
+import { PostBlock, Flex, H1, Border } from '../../styles';
 
 export class PostsList extends React.Component {
   state = {
-    error: null
+    error: null,
   };
 
   async componentDidMount() {
@@ -46,22 +47,22 @@ export class PostsList extends React.Component {
         <H1>List of posts (total posts - {posts.length})</H1>
         {posts.length >= 1
           ? posts.map(post => {
-              return (
-                <PostBlock key={post.id}>
-                  <Link to={`/posts/${post.id}`}>
-                    <h2>{post.title}</h2>
-                  </Link>
-                  <div>{post.body.substring(0, 200) + "..."}</div>
-                  <Flex>
-                    <p>{post.creator || "Unknown"} </p>
-                    <p> {moment(post.date).format("MMM Do YYYY")}</p>
-                  </Flex>
-                  <Border>
-                    <Link to={`/posts/${post.id}`}>Read the whole post</Link>
-                  </Border>
-                </PostBlock>
-              );
-            })
+            return (
+              <PostBlock key={post.id}>
+                <Link to={`/posts/${post.id}`}>
+                  <h2>{post.title}</h2>
+                </Link>
+                <div>{post.body.substring(0, 200) + '...'}</div>
+                <Flex>
+                  <p>{post.creator || "Unknown"} </p>
+                  <p> {moment(post.date).format('MMM Do YYYY')}</p>
+                </Flex>
+                <Border>
+                  <Link to={`/posts/${post.id}`}>Read the whole post</Link>
+                </Border>
+              </PostBlock>
+            );
+          })
           : this.handleFetchStatus()}
       </div>
     );
@@ -69,12 +70,23 @@ export class PostsList extends React.Component {
 }
 
 const mapStateToProps = state => ({
-  posts: sortPostsByDate(state.posts)
+  posts: sortPostsByDate(state.posts),
 });
 
 const mapDispatchToProps = dispatch => ({
-  setAllPosts: () => dispatch(setAllPosts())
+  setAllPosts: () => dispatch(setAllPosts()),
 });
+
+PostsList.propTypes = {
+  posts: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    body: PropTypes.string,
+    creator: PropTypes.string,
+    date: PropTypes.date,
+  })).isRequired,
+  setAllPosts: PropTypes.func.isRequired,
+};
 
 export default connect(
   mapStateToProps,

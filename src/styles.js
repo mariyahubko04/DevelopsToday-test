@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from 'styled-components';
 
 export const Navigation = styled.div`
   font-size: 17px;
@@ -139,7 +139,7 @@ export const CommentContainer = styled.div`
   background-color: aliceblue;
 `;
 
-export const AddForm = styled.div`
+export const AddForm = styled.form`
   margin: 10px 0;
   padding: 15px 30px;
 

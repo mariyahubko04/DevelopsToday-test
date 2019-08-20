@@ -1,7 +1,12 @@
-import { combineReducers, createStore, applyMiddleware, compose } from "redux";
-import thunk from "redux-thunk";
+import {
+  combineReducers,
+  createStore,
+  applyMiddleware,
+  compose,
+} from 'redux';
+import thunk from 'redux-thunk';
 
-import postsReducer from "./reducers/posts";
+import postsReducer from './reducers/posts';
 import commentsReducer from './reducers/comments';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;

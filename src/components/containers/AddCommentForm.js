@@ -1,18 +1,17 @@
-import React from "react";
-import { connect } from "react-redux";
+import React from 'react';
+import { connect } from 'react-redux';
 
-import { addNewComment } from "../../actions/comments";
-import { FlexStart } from "../../styles";
+import { addNewComment } from '../../actions/comments';
+import { FlexStart } from '../../styles';
 
 class AddCommentForm extends React.Component {
   state = {
-    comment: "",
+    comment: '',
     error: null
   };
 
   changeComment = event => {
     const { value } = event.target;
-    console.log(this.state.comment);
 
     this.setState({
       comment: value,
@@ -28,13 +27,13 @@ class AddCommentForm extends React.Component {
     if (comment.length < 5 || comment.length > 50) {
       this.setState({
         error:
-          "Enter a comment with a length of at least 5 characters and a maximum of 50!"
+          'Enter a comment with a length of at least 5 characters and a maximum of 50!',
       });
     } else {
       addNewComment(id, comment);
 
       this.setState({
-        comment: ""
+        comment: '',
       });
     }
   };

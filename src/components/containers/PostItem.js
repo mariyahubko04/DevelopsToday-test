@@ -1,11 +1,12 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Link } from "react-router-dom";
-import moment from "moment";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Link } from 'react-router-dom';
+import moment from 'moment';
+import PropTypes from 'prop-types';
 
-import { setAllComments } from "../../actions/comments";
-import AddCommentForm from "./AddCommentForm";
-import { Flex, PostItemSection, Comment, CommentContainer } from "../../styles";
+import { setAllComments } from '../../actions/comments';
+import AddCommentForm from './AddCommentForm';
+import { Flex, PostItemSection, Comment, CommentContainer } from '../../styles';
 
 class PostItem extends React.Component {
   async componentDidMount() {
@@ -20,6 +21,7 @@ class PostItem extends React.Component {
 
   render() {
     const { post, comments } = this.props;
+    console.log(post);
 
     return (
       <PostItemSection>
@@ -33,13 +35,14 @@ class PostItem extends React.Component {
         <AddCommentForm id={this.props.post.id} />
 
         <CommentContainer>
-          {comments.length > 0 ? (
-            comments.map(comment => {
-              return <Comment>{comment.body}</Comment>;
-            })
-          ) : (
-            <div>There are no comments for this post.</div>
-          )}
+          {post.comments &&
+            post.comments.length > 0 ? (
+              post.comments.map(comment => {
+                return <Comment>{comment.body}</Comment>;
+              })
+            ) : (
+              <div>There are no comments for this post.</div>
+            )}
         </CommentContainer>
         <Link to={`/`}>Back to home</Link>
       </PostItemSection>
@@ -49,12 +52,29 @@ class PostItem extends React.Component {
 
 const mapStateToProps = (state, props) => ({
   post: state.posts.find(post => post.id === +props.postId),
-  comments: state.comments.filter(comment => +comment.prevId === +props.postId)
+  comments: state.comments.filter(comment => +comment.prevId === +props.postId),
 });
 
 const mapDispatchToProps = dispatch => ({
-  setAllComments: () => dispatch(setAllComments())
+  setAllComments: () => dispatch(setAllComments()),
 });
+
+PostItem.propTypes = {
+  post: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    title: PropTypes.string,
+    body: PropTypes.string,
+    creator: PropTypes.string,
+    date: PropTypes.date,
+    comments: PropTypes.array,
+  })).isRequired,
+  setAllComments: PropTypes.func.isRequired,
+  comments: PropTypes.arrayOf(PropTypes.shape({
+    id: PropTypes.number,
+    prevId: PropTypes.string,
+    body: PropTypes.string,
+  })).isRequired,
+};
 
 export default connect(
   mapStateToProps,
